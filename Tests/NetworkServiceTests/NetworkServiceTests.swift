@@ -1,7 +1,7 @@
 import XCTest
 @testable import NetworkService
 
-final class FooTests: XCTestCase {
+final class NetworkService: XCTestCase {
 
     func testFoo() throws {
 
