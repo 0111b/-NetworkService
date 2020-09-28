@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Mock",
+        "repositoryURL": "https://github.com/0111b/Mock.git",
+        "state": {
+          "branch": null,
+          "revision": "9dfbc03f5cffa6b210f46fa3127e55d9c87b41be",
+          "version": "0.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

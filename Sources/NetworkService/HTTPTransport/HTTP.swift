@@ -25,5 +25,32 @@ public enum HTTP {
 
   public typealias QueryItems = [String: String]
   public typealias Headers = [String: String]
-  
+
+  public enum Body {
+    case empty
+    case data(Data)
+    case string(String)
+    case form([String: Any])
+    
+    public var data: Data? {
+      switch self {
+      case .empty: return nil
+      case .data(let data): return data
+      case .string(let string): return string.data(using: .utf8)
+      case .form(let params): return params
+        .compactMap { key, value in
+          guard let key = Body.urlEncode(key),
+                let value = Body.urlEncode("\(value)")
+          else { return nil }
+          return "\(key)=\(value)" }
+        .joined(separator: "&")
+        .data(using: .utf8)
+      }
+    }
+
+    static func urlEncode(_ string: String) -> String? {
+      string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
+  }
+
 }

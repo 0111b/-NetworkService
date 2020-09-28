@@ -1,31 +1,25 @@
-public final class AnyFetchRequest<SourceQuery, SourceData, SourceError: Error>: DataFetchRequest {
-  public typealias Query = SourceQuery
+public final class AnyFetchRequest<SourceData, SourceError: Error>: DataFetchRequest {
   public typealias FetchData = SourceData
   public typealias FetchError = SourceError
   typealias Run = (@escaping FetchCompletion) -> Cancellable
-  
-  public let query: Query
-  
+
   @discardableResult
   public func run(completion: @escaping FetchCompletion) -> Cancellable {
     return _run(completion)
   }
   
-  public func eraseToAny() -> AnyFetchRequest<Query, FetchData, FetchError> {
+  public func eraseToAny() -> AnyFetchRequest<FetchData, FetchError> {
     return self
   }
   
-  init(query: Query, run: @escaping Run) {
-    self.query = query
+  init(run: @escaping Run) {
     self._run = run
   }
   
   init<SourceRequest>(_ source: SourceRequest)
   where SourceRequest: DataFetchRequest,
         SourceRequest.FetchData == FetchData,
-        SourceRequest.FetchError == FetchError,
-        SourceRequest.Query == Query {
-    self.query = source.query
+        SourceRequest.FetchError == FetchError {
     self._run = source.run
   }
   
@@ -33,7 +27,7 @@ public final class AnyFetchRequest<SourceQuery, SourceData, SourceError: Error>:
 }
 
 public extension DataFetchRequest {
-  func eraseToAny() -> AnyFetchRequest<Query, FetchData, FetchError> {
+  func eraseToAny() -> AnyFetchRequest<FetchData, FetchError> {
     return AnyFetchRequest(self)
   }
 }
