@@ -6,22 +6,22 @@ import Foundation
 import FoundationNetworking
 #endif
 
-final class RequestConfigTests: XCTestCase {
+final class RequestAdapterTests: XCTestCase {
   var request: URLRequest!
-  var config: RequestConfig!
+  var config: RequestAdapter!
 
   override func setUpWithError() throws {
     request = URLRequest(url: URL(string: "http://google.com")!)
-    config = RequestConfig()
+    config = RequestAdapter()
   }
 
   func testInitialState() {
-    XCTAssertTrue(config.updates.isEmpty)
+    XCTAssertTrue(config.modifiers.isEmpty)
   }
 
   func testAppend() {
     _ = config.append({ _ in })
-    XCTAssertEqual(config.updates.count, 1)
+    XCTAssertEqual(config.modifiers.count, 1)
   }
 
   func testApply() {

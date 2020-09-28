@@ -6,11 +6,11 @@ struct LocationFetchRequest: DataFetchRequest {
 
   let fetcher: LocationRequestFetcher
   let location: HTTPLocation
-  let config: RequestConfig
+  let adapter: RequestAdapter
 
   func run(completion: @escaping FetchCompletion) -> Cancellable {
     fetcher.execute(with: location,
-                    config: config,
+                    adapter: adapter,
                     completion: completion)
   }
 }
@@ -18,7 +18,7 @@ struct LocationFetchRequest: DataFetchRequest {
 protocol LocationRequestFetcher {
   @discardableResult
   func execute(with location: HTTPLocation,
-               config: RequestConfig,
+               adapter: RequestAdapter,
                completion: @escaping (HTTPTransport.Result) -> Void)
   -> Cancellable
 }

@@ -3,18 +3,18 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public final class RequestConfig {
-  typealias Update = (inout URLRequest) -> Void
+public final class RequestAdapter {
+  typealias RequestModifier = (inout URLRequest) -> Void
 
-  var updates = [Update]()
+  var modifiers = [RequestModifier]()
 
-  func append(_ update: @escaping Update) -> Self {
-    updates.append(update)
+  func append(_ update: @escaping RequestModifier) -> Self {
+    modifiers.append(update)
     return self
   }
 
   func apply(to request: inout URLRequest) {
-    updates.forEach { update in
+    modifiers.forEach { update in
       update(&request)
     }
   }

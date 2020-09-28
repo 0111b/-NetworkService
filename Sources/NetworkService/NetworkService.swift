@@ -18,22 +18,22 @@ public final class NetworkService {
   let transport: HTTPTransport
 
   public func request(_ location: @autoclosure () -> HTTPLocation,
-                      config: RequestConfig = RequestConfig()) -> HTTPFetchRequest {
-    LocationFetchRequest(fetcher: self, location: location(), config: config).eraseToAny()
+                      adapter: RequestAdapter = RequestAdapter()) -> HTTPFetchRequest {
+    LocationFetchRequest(fetcher: self, location: location(), adapter: adapter).eraseToAny()
   }
 
   public func request<Object: Decodable>(_ location: @autoclosure () -> HTTPLocation,
-                                         config: RequestConfig = RequestConfig(),
+                                         adapter: RequestAdapter = RequestAdapter(),
                                          decode object: Object.Type,
                                          decoder: JSONDecoder = HTTP.defaultDecoder) -> JSONFetchRequest<Object> {
-    request(location(), config: config).decode(object: object, decoder: decoder)
+    request(location(), adapter: adapter).decode(object: object, decoder: decoder)
   }
 }
 
 extension NetworkService: LocationRequestFetcher {
   @discardableResult
   func execute(with location: HTTPLocation,
-               config: RequestConfig,
+               adapter: RequestAdapter,
                completion: @escaping (HTTPTransport.Result) -> Void)
   -> Cancellable {
     let fail: () -> Cancellable = {
@@ -52,7 +52,7 @@ extension NetworkService: LocationRequestFetcher {
     urlRequest.httpMethod = location.method.rawValue
     urlRequest.httpBody = location.body.data
     urlRequest.allHTTPHeaderFields = location.httpHeaders
-    config.apply(to: &urlRequest)
+    adapter.apply(to: &urlRequest)
     return transport.obtain(request: urlRequest, completion: completion)
   }
 }
