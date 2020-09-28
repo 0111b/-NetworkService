@@ -30,7 +30,7 @@ extension DataFetchRequest {
     }
   }
 
-  public func dropValue() -> AnyFetchRequest<Void, FetchError> {
+  public func discardValue() -> AnyFetchRequest<Void, FetchError> {
     map { _ in () }
   }
 }
