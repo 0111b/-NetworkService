@@ -20,13 +20,13 @@ final class RequestConfigTests: XCTestCase {
   }
 
   func testAppend() {
-    _ = config.append( { _ in })
+    _ = config.append({ _ in })
     XCTAssertEqual(config.updates.count, 1)
   }
 
   func testApply() {
     var isUpdateCalled = false
-    _ = config.append( { _ in
+    _ = config.append({ _ in
       isUpdateCalled = true
     })
     config.apply(to: &request)

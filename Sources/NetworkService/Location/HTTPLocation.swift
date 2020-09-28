@@ -6,12 +6,12 @@ public final class HTTPLocation {
   var queryItems: HTTP.QueryItems
   var body: HTTP.Body
   var httpHeaders: HTTP.Headers
-  
+
   public init(urlPath: String,
-       method: HTTP.Method = .get,
-       queryItems: HTTP.QueryItems = [:],
-       body: HTTP.Body = .empty,
-       httpHeaders: HTTP.Headers? = nil) {
+              method: HTTP.Method = .get,
+              queryItems: HTTP.QueryItems = [:],
+              body: HTTP.Body = .empty,
+              httpHeaders: HTTP.Headers? = nil) {
     self.urlPath = urlPath
     self.method = method
     self.queryItems = queryItems
@@ -45,4 +45,3 @@ public final class HTTPLocation {
     case wwwForm = "application/x-www-form-urlencoded;charset=UTF-8"
   }
 }
-

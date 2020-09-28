@@ -4,9 +4,9 @@ public protocol DataFetchRequest {
 
   /// Request data type
   associatedtype FetchData
-  
+
   associatedtype FetchError: Error = Error
-  
+
   /// Request completion closure
   typealias FetchCompletion = (Result<FetchData, FetchError>) -> Void
 
@@ -14,6 +14,6 @@ public protocol DataFetchRequest {
   /// - Parameter completion: completion block
   @discardableResult
   func run(completion: @escaping FetchCompletion) -> Cancellable
-  
+
   func eraseToAny() -> AnyFetchRequest<FetchData, FetchError>
 }

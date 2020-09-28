@@ -2,13 +2,13 @@ import XCTest
 @testable import NetworkService
 
 final class HTTPLocationTests: XCTestCase {
-  
+
   var location: HTTPLocation!
-  
+
   override func setUpWithError() throws {
     location = HTTPLocation(urlPath: "/")
   }
-  
+
   func testAuth() {
     _ = location.auth(token: "token")
     XCTAssertEqual(location.httpHeaders["Authorization"], "Bearer token")

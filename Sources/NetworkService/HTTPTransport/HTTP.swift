@@ -7,7 +7,7 @@ public enum HTTP {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return decoder
   }
-  
+
   /// HTTP method definitions.
   ///
   /// See [spec](https://tools.ietf.org/html/rfc7231#section-4.3)
@@ -31,7 +31,7 @@ public enum HTTP {
     case data(Data)
     case string(String)
     case form([String: Any])
-    
+
     public var data: Data? {
       switch self {
       case .empty: return nil

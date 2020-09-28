@@ -23,9 +23,9 @@ public final class NetworkService {
   }
 
   public func request<Object: Decodable>(_ location: @autoclosure () -> HTTPLocation,
-                      config: RequestConfig = RequestConfig(),
-                      decode object: Object.Type,
-                      decoder: JSONDecoder = HTTP.defaultDecoder) -> JSONFetchRequest<Object> {
+                                         config: RequestConfig = RequestConfig(),
+                                         decode object: Object.Type,
+                                         decoder: JSONDecoder = HTTP.defaultDecoder) -> JSONFetchRequest<Object> {
     request(location(), config: config).decode(object: object, decoder: decoder)
   }
 }
