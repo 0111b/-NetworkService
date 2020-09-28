@@ -17,15 +17,23 @@ public final class NetworkService {
   let baseURL: String
   let transport: HTTPTransport
 
-  public func request(_ location: @autoclosure () -> HTTPLocation) -> HTTPFetchRequest {
-    LocationFetchRequest(fetcher: self, location: location()).eraseToAny()
+  public func request(_ location: @autoclosure () -> HTTPLocation,
+                      config: RequestConfig = RequestConfig()) -> HTTPFetchRequest {
+    LocationFetchRequest(fetcher: self, location: location(), config: config).eraseToAny()
   }
 
+  public func request<Object: Decodable>(_ location: @autoclosure () -> HTTPLocation,
+                      config: RequestConfig = RequestConfig(),
+                      decode object: Object.Type,
+                      decoder: JSONDecoder = HTTP.defaultDecoder) -> JSONFetchRequest<Object> {
+    request(location(), config: config).decode(object: object, decoder: decoder)
+  }
 }
 
-extension NetworkService: NetworkRequestFetcher {
+extension NetworkService: LocationRequestFetcher {
   @discardableResult
   func execute(with location: HTTPLocation,
+               config: RequestConfig,
                completion: @escaping (HTTPTransport.Result) -> Void)
   -> Cancellable {
     let fail: () -> Cancellable = {
@@ -44,6 +52,7 @@ extension NetworkService: NetworkRequestFetcher {
     urlRequest.httpMethod = location.method.rawValue
     urlRequest.httpBody = location.body.data
     urlRequest.allHTTPHeaderFields = location.httpHeaders
+    config.apply(to: &urlRequest)
     return transport.obtain(request: urlRequest, completion: completion)
   }
 }
